@@ -1,10 +1,10 @@
-from services import UserService
+from controllers import UserController
 from models import Base
 from database import engine
+from flask import Flask
 
 if __name__ == "__main__":
     Base.metadata.create_all(bind=engine)
-
-    service = UserService()
-    user = service.add_user("admin", "admin@example.com")
-    print(user)
+    app = Flask(__name__)
+    controller = UserController(app)
+    app.run(debug=True)

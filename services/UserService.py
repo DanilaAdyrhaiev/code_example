@@ -13,5 +13,10 @@ class UserService:
             user = User(username=username, email=email)
             return self.repository.create(user)
         return None
+    
+    def get_user_by_id(self, id):
+        if id:
+            return self.repository.get_by_id(id)
+        return None
         
 
