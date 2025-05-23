@@ -1,7 +1,8 @@
 from services import UserService
 from models import Base
 from database import engine
-from flask import request
+from flask import request, jsonify
+from DTOs import UserDTO
 
 class UserController:
     def __init__(self, app):
@@ -15,6 +16,7 @@ class UserController:
 
     def post_user(self):
         data = request.get_json()
-        name = data.get('username')
-        email = data.get('email')
-        return self.service.add_user(name, email).to_dict()
+        if data.get('username').strip() and data.get('email').strip():
+            user_dto = UserDTO(username= data.get('username'), email=data.get('email'))
+            added_user = self.service.add_user(user_dto)
+            return jsonify(added_user.model_dump())
